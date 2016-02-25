@@ -17,7 +17,7 @@ Using the `.version` file, your application can then construct the URI containin
  
 Please note that `increment-version.sh` supports only numeric semantic version numbers, and not semantic version numbers, containing build and pre-release components.
 
-For example, `increment-version.sh` supports `1.2.5`, but does not support `1.2.3-alpha.1+build.12345.ea4f51`.
+For example, `increment-version.sh` supports `1.2.3`, but does not support `1.2.3-alpha.1+build.12345.ea4f51`.
  
 
 ## Example usage
@@ -58,7 +58,7 @@ In each of the above cases, it makes sense to increment the `.version` file to f
 
 ## Installation
 
-Installation is via composer
+Installation is via composer:
     
     cd ~/install-path
     
