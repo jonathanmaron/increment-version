@@ -58,3 +58,16 @@ In each of the above cases, it makes sense to increment the `.version` file to f
 
 ## Installation
 
+Installation is via composer
+    
+    cd ~/install-path
+    
+    composer create-project jonathanmaron/increment-version
+    
+It is recommended to include `~/bin` in your `PATH` variable:
+
+    PATH=$PATH:~/install-path/increment-version/bin
+    
+    export PATH
+    
+so that `increment-version.sh` is available to the logged in user globally. 
