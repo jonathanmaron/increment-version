@@ -1,6 +1,8 @@
 {
     "name": "jonathanmaron/increment-version",
 
+    "type" : "project",
+
     "require": {
         "symfony/console": "^3.0",
         "symfony/var-dumper": "^3.0",
