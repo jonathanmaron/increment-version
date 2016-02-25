@@ -1,7 +1,7 @@
 {
     "name": "jonathanmaron/increment-version",
 
-    "description" : "increment-version.sh helps you programmatically maintain a .version file in the root directory of your project that contains a version number. Using this version number it is trivial to programmatically invalidate URIs to resources with a long expires header stored, for example, in a CDN in your build scripts.",
+    "description" : "increment-version.sh helps you programmatically maintain a .version file in the root directory of your project that contains a version number. Using this version number it is trivial to programmatically invalidate URIs to resources with a long expires header (stored, for example, in a CDN) in your build scripts.",
 
     "type": "project",
 
