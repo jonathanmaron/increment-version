@@ -1,7 +1,11 @@
 {
     "name": "jonathanmaron/increment-version",
 
-    "type" : "project",
+    "type": "project",
+
+    "homepage": "https://github.com/jonathanmaron/increment-version",
+
+    "license": "Apache-2.0",
 
     "require": {
         "symfony/console": "^3.0",
