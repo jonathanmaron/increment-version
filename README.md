@@ -68,6 +68,4 @@ It is recommended to include `~/bin` in your `PATH` variable:
 
     PATH=$PATH:~/install-path/increment-version/bin
     
-    export PATH
-    
 so that `increment-version.sh` is available to the logged in user globally. 
