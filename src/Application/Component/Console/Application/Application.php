@@ -2,7 +2,7 @@
 
 namespace Application\Component\Console\Application;
 
-use Application\Console\Command\IncrementVersion;
+use Application\Component\Console\Command\IncrementVersion;
 use Symfony\Component\Console\Application as ApplicationConsoleComponentSymfony;
 use Symfony\Component\Console\Input\InputInterface;
 
