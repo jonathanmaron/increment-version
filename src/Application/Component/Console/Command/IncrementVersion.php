@@ -14,7 +14,7 @@ class IncrementVersion extends AbstractIncrementVersion
 
     protected function configure()
     {
-        $this->setName('increment-version');
+        $this->setName('increment-version.php');
 
         $this->setDescription('Increment the ' . self::VERSION_FILE . ' file');
 

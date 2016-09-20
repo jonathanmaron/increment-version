@@ -12,7 +12,7 @@ class Application extends ApplicationConsoleComponentSymfony
 
     protected function getCommandName(InputInterface $input)
     {
-        return 'increment-version';
+        return 'increment-version.php';
     }
 
     protected function getDefaultCommands()
