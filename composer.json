@@ -1,35 +1,26 @@
 {
     "name": "jonathanmaron/increment-version",
-
-    "description" : "increment-version.sh helps you programmatically maintain a .version file in the root directory of your project that contains a version number. Using this version number it is trivial to programmatically invalidate URIs to resources with a long expires header (stored, for example, in a CDN) in your build scripts.",
-
+    "description": "increment-version.php helps you programmatically maintain a .version file in the root directory of your project that contains a version number. Using this version number it is trivial to programmatically invalidate URIs to resources with a long expires header (stored, for example, in a CDN) in your build scripts.",
     "type": "project",
-
     "homepage": "https://github.com/jonathanmaron/increment-version",
-
     "license": "Apache-2.0",
-
     "require": {
         "symfony/console": "^3.0",
         "symfony/var-dumper": "^3.0",
         "naneau/semver": "^0.0.7"
     },
-
     "autoload": {
         "psr-4": {
-            "Application\\" : "src/Application"
+            "Application\\": "src/Application"
         }
     },
-
     "require-dev": {
         "satooshi/php-coveralls": "dev-master",
         "phpunit/phpunit": "~4.8"
     },
-
     "autoload-dev": {
         "psr-4": {
             "ApplicationTest\\": "test/Application"
         }
     }
-
 }
