@@ -9,7 +9,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
-class IncrementVersion extends AbstractIncrementVersion
+class Command extends AbstractCommand
 {
 
     protected function configure()
