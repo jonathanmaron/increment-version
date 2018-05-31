@@ -4,6 +4,8 @@ declare(strict_types=1);
 namespace Application\Component\Console\Command;
 
 use Application\Exception\RuntimeException;
+use Application\VersionFile\VersionFile;
+use Application\VersionString\VersionString;
 use Symfony\Component\Console\Command\LockableTrait;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -17,7 +19,7 @@ class IncrementVersionCommand extends AbstractCommand
     {
         $this->setName('increment-version');
 
-        $description = sprintf('Increment the %s file', self::VERSION_FILE);
+        $description = sprintf('Increment the %s file', VersionFile::VERSION_FILE);
         $this->setDescription($description);
 
         // <editor-fold desc="InputOption: (string) path">
@@ -25,21 +27,10 @@ class IncrementVersionCommand extends AbstractCommand
         $name        = 'path';
         $shortcut    = null;
         $mode        = InputOption::VALUE_REQUIRED;
-        $description = sprintf('Path in which %s is located.', self::VERSION_FILE);
+        $description = sprintf('Path in which %s is located.', VersionFile::VERSION_FILE);
         $default     = '';
 
         $this->addOption($name, $shortcut, $mode, $description, $default);
-
-        // </editor-fold>
-
-        // <editor-fold desc="InputOption: (bool) init">
-
-        $name        = 'init';
-        $shortcut    = null;
-        $mode        = InputOption::VALUE_NONE;
-        $description = sprintf('Initialize %s.', self::VERSION_FILE);
-
-        $this->addOption($name, $shortcut, $mode, $description);
 
         // </editor-fold>
 
@@ -88,6 +79,17 @@ class IncrementVersionCommand extends AbstractCommand
 
         // </editor-fold>
 
+        // <editor-fold desc="InputOption: (bool) init">
+
+        $name        = 'init';
+        $shortcut    = null;
+        $mode        = InputOption::VALUE_NONE;
+        $description = sprintf('Initialize %s.', VersionFile::VERSION_FILE);
+
+        $this->addOption($name, $shortcut, $mode, $description);
+
+        // </editor-fold>
+
         return $this;
     }
 
@@ -103,6 +105,8 @@ class IncrementVersionCommand extends AbstractCommand
 
     protected function interact(InputInterface $input, OutputInterface $output): self
     {
+        $versionString = new VersionString();
+
         $path = (string) $input->getOption('path');
         $path = trim($path);
         if (!is_readable($path)) {
@@ -116,7 +120,7 @@ class IncrementVersionCommand extends AbstractCommand
 
         $set = (string) $input->getOption('set');
         $set = trim($set);
-        if (strlen($set) > 0 && !$this->isValidVersionString($set)) {
+        if (strlen($set) > 0 && !$versionString->isValid($set)) {
             $format  = 'The "--set" option contains an invalid semantic version ("%s").';
             $message = sprintf($format, $set);
             throw new RuntimeException($message);
@@ -137,15 +141,16 @@ class IncrementVersionCommand extends AbstractCommand
 
     protected function execute(InputInterface $input, OutputInterface $output): self
     {
-        $filename = $this->getPath() . DIRECTORY_SEPARATOR . self::VERSION_FILE;
+        $versionString = new VersionString();
+        $versionFile   = new VersionFile();
+
+        $filename = $this->getPath() . DIRECTORY_SEPARATOR . VersionFile::VERSION_FILE;
 
         if ($this->getInit()) {
             if (is_readable($filename)) {
                 unlink($filename);
             }
-            $format = '0%s0%s1';
-            $buffer = sprintf($format, self::VERSION_SEPARATOR, self::VERSION_SEPARATOR);
-            $this->writeVersionFile($filename, $buffer);
+            $versionFile->write($filename, $versionString->getInitial());
         }
 
         if (!is_readable($filename)) {
@@ -156,26 +161,26 @@ class IncrementVersionCommand extends AbstractCommand
 
         $buffer = $this->getSet();
         if (strlen($buffer) > 0) {
-            $this->writeVersionFile($filename, $buffer);
+            $versionFile->write($filename, $buffer);
         }
 
-        $buffer  = $this->readVersionFile($filename);
-        $version = $this->versionStringToVersionArray($buffer);
+        $buffer       = $versionFile->read($filename);
+        $versionArray = $versionString->versionStringToVersionArray($buffer);
 
         if ($this->getMajor()) {
-            $version['major']++;
+            $versionArray['major']++;
         }
 
         if ($this->getMinor()) {
-            $version['minor']++;
+            $versionArray['minor']++;
         }
 
         if ($this->getPatch()) {
-            $version['patch']++;
+            $versionArray['patch']++;
         }
 
-        $buffer = $this->versionArrayToVersionString($version);
-        $this->writeVersionFile($filename, $buffer);
+        $buffer = $versionString->versionArrayToVersionString($versionArray);
+        $versionFile->write($filename, $buffer);
 
         $format  = 'Version is %s';
         $message = sprintf($format, $buffer);
