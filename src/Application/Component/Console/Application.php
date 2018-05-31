@@ -1,37 +1,31 @@
 <?php
+declare(strict_types=1);
 
 namespace Application\Component\Console;
 
-use Application\Component\Console\Command\Command;
-use Symfony\Component\Console\Application as ApplicationConsoleComponentSymfony;
-use Symfony\Component\Console\Input\InputInterface;
+use Application\Component\Console\Command\CommandFactory;
+use Application\Component\Console\Command\IncrementVersionCommand;
+use Symfony\Component\Console\Application as ParentApplication;
 
-class Application extends ApplicationConsoleComponentSymfony
+class Application extends ParentApplication
 {
-    protected $config;
-
-    protected function getCommandName(InputInterface $input)
+    protected function getDefaultCommands(): array
     {
-        return 'increment-version.php';
+        $ret = parent::getDefaultCommands();
+
+        $commands = [
+            IncrementVersionCommand::class,
+        ];
+
+        $container = null;
+        $options   = [];
+
+        foreach ($commands as $requestedName) {
+            $instance = new CommandFactory();
+            $command  = $instance($container, $requestedName, $options);
+            array_push($ret, $command);
+        }
+
+        return $ret;
     }
-
-    protected function getDefaultCommands()
-    {
-        $command = new Command();
-
-        $defaultCommands = parent::getDefaultCommands();
-
-        array_push($defaultCommands, $command);
-
-        return $defaultCommands;
-    }
-
-    public function getDefinition()
-    {
-        $inputDefinition = parent::getDefinition();
-        $inputDefinition->setArguments();
-
-        return $inputDefinition;
-    }
-
 }
