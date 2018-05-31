@@ -5,7 +5,17 @@ namespace Application\VersionFile;
 
 class VersionFile
 {
-    public const VERSION_FILE = '.version';
+    private const VERSION_FILE = '.version';
+
+    public function getFilename(string $path): string
+    {
+        return $path . DIRECTORY_SEPARATOR . self::VERSION_FILE;
+    }
+
+    public function isValid(string $filename): bool
+    {
+        return is_readable($filename);
+    }
 
     public function read(string $filename): string
     {

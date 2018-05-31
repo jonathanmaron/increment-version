@@ -19,15 +19,14 @@ class IncrementVersionCommand extends AbstractCommand
     {
         $this->setName('increment-version');
 
-        $description = sprintf('Increment the %s file', VersionFile::VERSION_FILE);
-        $this->setDescription($description);
+        $this->setDescription('Increment the version file');
 
         // <editor-fold desc="InputOption: (string) path">
 
         $name        = 'path';
         $shortcut    = null;
         $mode        = InputOption::VALUE_REQUIRED;
-        $description = sprintf('Path in which %s is located.', VersionFile::VERSION_FILE);
+        $description = 'Path in which version file is located.';
         $default     = '';
 
         $this->addOption($name, $shortcut, $mode, $description, $default);
@@ -84,7 +83,7 @@ class IncrementVersionCommand extends AbstractCommand
         $name        = 'init';
         $shortcut    = null;
         $mode        = InputOption::VALUE_NONE;
-        $description = sprintf('Initialize %s.', VersionFile::VERSION_FILE);
+        $description = 'Initialize version file.';
 
         $this->addOption($name, $shortcut, $mode, $description);
 
@@ -144,16 +143,13 @@ class IncrementVersionCommand extends AbstractCommand
         $versionString = new VersionString();
         $versionFile   = new VersionFile();
 
-        $filename = $this->getPath() . DIRECTORY_SEPARATOR . VersionFile::VERSION_FILE;
+        $filename = $versionFile->getFilename($this->getPath());
 
         if ($this->getInit()) {
-            if (is_readable($filename)) {
-                unlink($filename);
-            }
             $versionFile->write($filename, $versionString->getInitial());
         }
 
-        if (!is_readable($filename)) {
+        if (!$versionFile->isValid($filename)) {
             $format  = '%s does not exist. Use option --init to initialize project.';
             $message = sprintf($format, $filename);
             throw new RuntimeException($message);
