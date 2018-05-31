@@ -23,27 +23,27 @@ For example, `increment-version` supports `1.2.3`, but does not support `1.2.3-a
 
 ### Initialize Your Project
 
-    increment-version /var/www/www.example.com --init
+    increment-version --path="/var/www/www.example.com" --init
 
 ### Set the `.version` File to 0.0.5
 
-    increment-version /var/www/www.example.com --set 0.0.5
+    increment-version --path="/var/www/www.example.com" --set="0.0.5"
 
 ### Increment the Major Number of the `.version` File
 
-    increment-version /var/www/www.example.com --major
+    increment-version --path="/var/www/www.example.com" --major
 
 ### Increment the Minor Number of the `.version` File
 
-    increment-version /var/www/www.example.com --minor
+    increment-version --path="/var/www/www.example.com" --minor
 
 ### Increment the Patch Number of the `.version` File
 
-    increment-version /var/www/www.example.com --patch
+    increment-version --path="/var/www/www.example.com" --patch
 
 ### Increment the Major, Minor and Patch Numbers of the `.version` File
 
-    increment-version /var/www/www.example.com --major --minor --patch
+    increment-version --path="/var/www/www.example.com" --major --minor --patch
 
 
 ## How to Use in Your Project
