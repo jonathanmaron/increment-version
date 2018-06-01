@@ -120,7 +120,7 @@ class IncrementVersionCommand extends AbstractCommand
         $set = (string) $input->getOption('set');
         $set = trim($set);
         if (strlen($set) > 0 && !$versionString->isValid($set)) {
-            $format  = 'The "--set" option contains an invalid semantic version ("%s").';
+            $format  = 'The "--set" option contains an invalid semantic version "%s".';
             $message = sprintf($format, $set);
             throw new RuntimeException($message);
         }
@@ -160,7 +160,12 @@ class IncrementVersionCommand extends AbstractCommand
             $versionFile->write($filename, $buffer);
         }
 
-        $buffer       = $versionFile->read($filename);
+        $buffer = $versionFile->read($filename);
+        if (!$versionString->isValid($buffer)) {
+            $format  = 'The version file "%s" contains an invalid semantic version "%s".';
+            $message = sprintf($format, $filename, $buffer);
+            throw new RuntimeException($message);
+        }
         $versionArray = $versionString->versionStringToVersionArray($buffer);
 
         if ($this->getMajor()) {

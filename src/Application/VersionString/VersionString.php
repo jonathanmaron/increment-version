@@ -3,60 +3,80 @@ declare(strict_types=1);
 
 namespace Application\VersionString;
 
-use Application\Exception\RuntimeException;
 use Naneau\SemVer\Parser;
 use Throwable;
 
 class VersionString
 {
+    /**
+     * Seperator between semantic version parts
+     *
+     * @var string
+     */
     private const VERSION_SEPARATOR = '.';
 
+    /**
+     * Convert a semantic version string to an array containing the major, minor and patch parts
+     *
+     * @param string $versionString
+     *
+     * @return array
+     */
     public function versionStringToVersionArray(string $versionString): array
     {
-        if (!$this->isValid($versionString)) {
-            $format  = 'Invalid semantic version ("%s")';
-            $message = sprintf($format, $versionString);
-            throw new RuntimeException($message);
-        }
-
         $parser = Parser::parse($versionString);
 
-        if ($parser->hasBuild() || $parser->hasPreRelease()) {
-            $format  = 'Only numeric semantic version numbers in the format "%s" are supported.';
-            $message = sprintf($format, $this->getInitial());
-            throw new RuntimeException($message);
-        }
-
         return [
-            'major' => $parser->getMajor(),
-            'minor' => $parser->getMinor(),
-            'patch' => $parser->getPatch(),
+            'major' => (int) $parser->getMajor(),
+            'minor' => (int) $parser->getMinor(),
+            'patch' => (int) $parser->getPatch(),
         ];
     }
 
+    /**
+     * Convert an array containing the major, minor and patch parts to a semantic version string
+     *
+     * @param array $versionArray
+     *
+     * @return string
+     */
+    public function versionArrayToVersionString(array $versionArray): string
+    {
+        return implode(self::VERSION_SEPARATOR, $versionArray);
+    }
+
+    /**
+     * Return true, if $versionString contains a valid semantic version; false otherwise
+     *
+     * @param string $versionString
+     *
+     * @return bool
+     */
     public function isValid(string $versionString): bool
     {
-        $ret = true;
+        $ret = false;
 
         try {
-            Parser::parse($versionString);
+            $parser = Parser::parse($versionString);
+            if (!$parser->hasBuild() && !$parser->hasPreRelease()) {
+                $ret = true;
+            }
         } catch (Throwable $e) {
-            $ret = false;
         }
 
         return $ret;
     }
 
+    /**
+     * Return the initial semantic version
+     *
+     * @return string
+     */
     public function getInitial(): string
     {
         $format = '0%s0%s1';
         $ret    = sprintf($format, self::VERSION_SEPARATOR, self::VERSION_SEPARATOR);
 
         return $ret;
-    }
-
-    public function versionArrayToVersionString(array $versionArray): string
-    {
-        return implode(self::VERSION_SEPARATOR, $versionArray);
     }
 }
