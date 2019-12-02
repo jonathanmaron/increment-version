@@ -11,11 +11,11 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
-class IncrementVersionCommand extends AbstractCommand
+class Command extends AbstractCommand
 {
     use LockableTrait;
 
-    protected function configure(): self
+    protected function configure(): void
     {
         $this->setName('increment-version');
 
@@ -89,20 +89,20 @@ class IncrementVersionCommand extends AbstractCommand
 
         // </editor-fold>
 
-        return $this;
+        return;
     }
 
-    protected function initialize(InputInterface $input, OutputInterface $output): self
+    protected function initialize(InputInterface $input, OutputInterface $output): void
     {
         if (!$this->lock()) {
             $message = 'The script is already running in another process.';
             throw new RuntimeException($message);
         }
 
-        return $this;
+        return;
     }
 
-    protected function interact(InputInterface $input, OutputInterface $output): self
+    protected function interact(InputInterface $input, OutputInterface $output): void
     {
         $versionString = new VersionString();
 
@@ -135,10 +135,10 @@ class IncrementVersionCommand extends AbstractCommand
         $patch = (int) $input->getOption('patch');
         $this->setPatch($patch);
 
-        return $this;
+        return;
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output): self
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $versionString = new VersionString();
         $versionFile   = new VersionFile();
@@ -187,6 +187,6 @@ class IncrementVersionCommand extends AbstractCommand
         $message = sprintf($format, $buffer);
         $output->writeln($message);
 
-        return $this;
+        return 1;
     }
 }

@@ -74,9 +74,6 @@ class VersionString
      */
     public function getInitial(): string
     {
-        $format = '0%s0%s1';
-        $ret    = sprintf($format, self::VERSION_SEPARATOR, self::VERSION_SEPARATOR);
-
-        return $ret;
+        return sprintf('0%s0%s1', self::VERSION_SEPARATOR, self::VERSION_SEPARATOR);
     }
 }

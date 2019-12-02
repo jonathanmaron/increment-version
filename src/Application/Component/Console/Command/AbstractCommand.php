@@ -7,17 +7,17 @@ use Symfony\Component\Console\Command\Command as ParentCommand;
 
 abstract class AbstractCommand extends ParentCommand
 {
-    protected $path  = '';
+    protected string $path  = '';
 
-    protected $set   = '';
+    protected string $set   = '';
 
-    protected $major = 0;
+    protected int $major = 0;
 
-    protected $minor = 0;
+    protected int $minor = 0;
 
-    protected $patch = 0;
+    protected int $patch = 0;
 
-    protected $init  = false;
+    protected bool $init  = false;
 
     protected function getPath(): string
     {

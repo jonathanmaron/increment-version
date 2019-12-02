@@ -6,7 +6,7 @@ namespace Application\Component\Console\Command;
 use Interop\Container\ContainerInterface;
 use Symfony\Component\Console\Command\Command;
 
-class CommandFactory
+class Factory
 {
     public function __invoke(
         ?ContainerInterface $container = null,
@@ -14,8 +14,6 @@ class CommandFactory
         ?array $options = null
     ): Command {
 
-        $command = new $requestedName;
-
-        return $command;
+        return new $requestedName;
     }
 }
