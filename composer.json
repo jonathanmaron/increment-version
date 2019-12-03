@@ -5,6 +5,9 @@
     "type": "project",
     "homepage": "https://github.com/jonathanmaron/increment-version",
     "autoload": {
+        "files": [
+            "bootstrap.php"
+        ],
         "psr-4": {
             "Application\\": "src/Application"
         }
