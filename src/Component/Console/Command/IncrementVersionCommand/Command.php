@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace Application\Component\Console\IncrementVersionCommand;
+namespace Application\Component\Console\Command\IncrementVersionCommand;
 
 use Application\Exception\RuntimeException;
 use Application\VersionFile\VersionFile;

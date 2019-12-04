@@ -3,8 +3,8 @@ declare(strict_types=1);
 
 namespace Application\Component\Console;
 
-use Application\Component\Console\IncrementVersionCommand\Command;
-use Application\Component\Console\IncrementVersionCommand\Factory;
+use Application\Component\Console\Command\IncrementVersionCommand\Command;
+use Application\Component\Console\Command\IncrementVersionCommand\Factory;
 use Symfony\Component\Console\Application as ParentApplication;
 
 class Application extends ParentApplication
