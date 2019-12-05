@@ -187,6 +187,6 @@ class Command extends AbstractCommand
         $message = sprintf($format, $buffer);
         $output->writeln($message);
 
-        return 1;
+        return 0;
     }
 }
