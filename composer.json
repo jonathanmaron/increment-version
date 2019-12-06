@@ -14,7 +14,7 @@
     },
     "require": {
         "php": "^7.4",
-        "container-interop/container-interop": "^1.2",
+        "psr/container": "^1.0",
         "naneau/semver": "^0.0.7",
         "symfony/console": "^5.0",
         "symfony/lock": "^5.0"
