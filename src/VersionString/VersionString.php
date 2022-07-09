@@ -27,9 +27,9 @@ class VersionString
         $parser = Parser::parse($versionString);
 
         return [
-            'major' => (int) $parser->getMajor(),
-            'minor' => (int) $parser->getMinor(),
-            'patch' => (int) $parser->getPatch(),
+            'major' => $parser->getMajor(),
+            'minor' => $parser->getMinor(),
+            'patch' => $parser->getPatch(),
         ];
     }
 

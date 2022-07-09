@@ -10,10 +10,11 @@ class Factory
 {
     public function __invoke(
         ?ContainerInterface $container = null,
-        ?string $requestedName = null,
-        ?array $options = null
+        string $requestedName = '',
+        array $options = []
     ): Command {
-
-        return new $requestedName;
+        $command = new $requestedName;
+        assert($command instanceof AbstractCommand);
+        return $command;
     }
 }

@@ -11,11 +11,11 @@ abstract class AbstractCommand extends ParentCommand
 
     protected string $set   = '';
 
-    protected int $major = 0;
+    protected bool $major = false;
 
-    protected int $minor = 0;
+    protected bool $minor = false;
 
-    protected int $patch = 0;
+    protected bool $patch = false;
 
     protected bool $init  = false;
 
@@ -43,36 +43,36 @@ abstract class AbstractCommand extends ParentCommand
         return $this;
     }
 
-    protected function getMajor(): int
+    protected function getMajor(): bool
     {
         return $this->major;
     }
 
-    protected function setMajor(int $major): self
+    protected function setMajor(bool $major): self
     {
         $this->major = $major;
 
         return $this;
     }
 
-    protected function getMinor(): int
+    protected function getMinor(): bool
     {
         return $this->minor;
     }
 
-    protected function setMinor(int $minor): self
+    protected function setMinor(bool $minor): self
     {
         $this->minor = $minor;
 
         return $this;
     }
 
-    protected function getPatch(): int
+    protected function getPatch(): bool
     {
         return $this->patch;
     }
 
-    protected function setPatch(int $patch): self
+    protected function setPatch(bool $patch): self
     {
         $this->patch = $patch;
 

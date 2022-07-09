@@ -46,6 +46,7 @@ class VersionFile
     public function read(string $filename): string
     {
         $buffer = file_get_contents($filename);
+        assert(is_string($buffer));
 
         return trim($buffer);
     }

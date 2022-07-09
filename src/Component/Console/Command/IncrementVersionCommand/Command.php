@@ -45,7 +45,7 @@ class Command extends AbstractCommand
 
         // </editor-fold>
 
-        // <editor-fold desc="InputOption: (int) major">
+        // <editor-fold desc="InputOption: (bool) major">
 
         $name        = 'major';
         $shortcut    = null;
@@ -56,7 +56,7 @@ class Command extends AbstractCommand
 
         // </editor-fold>
 
-        // <editor-fold desc="InputOption: (int) minor">
+        // <editor-fold desc="InputOption: (bool) minor">
 
         $name        = 'minor';
         $shortcut    = null;
@@ -67,7 +67,7 @@ class Command extends AbstractCommand
 
         // </editor-fold>
 
-        // <editor-fold desc="InputOption: (int) patch">
+        // <editor-fold desc="InputOption: (bool) patch">
 
         $name        = 'patch';
         $shortcut    = null;
@@ -88,8 +88,6 @@ class Command extends AbstractCommand
         $this->addOption($name, $shortcut, $mode, $description);
 
         // </editor-fold>
-
-        return;
     }
 
     protected function initialize(InputInterface $input, OutputInterface $output): void
@@ -98,26 +96,28 @@ class Command extends AbstractCommand
             $message = 'The script is already running in another process.';
             throw new RuntimeException($message);
         }
-
-        return;
     }
 
     protected function interact(InputInterface $input, OutputInterface $output): void
     {
         $versionString = new VersionString();
 
-        $path = (string) $input->getOption('path');
-        $path = trim($path);
+        $path = $input->getOption('path');
+        assert(is_string($path));
         if (!is_readable($path)) {
             $message = 'The "--path" option is missing or invalid.';
             throw new RuntimeException($message);
         }
-        $this->setPath(realpath($path));
+        $realpath = realpath($path);
+        assert(is_string($realpath));
+        $this->setPath($realpath);
 
-        $init = (bool) $input->getOption('init');
+        $init = $input->getOption('init');
+        assert(is_bool($init));
         $this->setInit($init);
 
-        $set = (string) $input->getOption('set');
+        $set = $input->getOption('set');
+        assert(is_string($set));
         $set = trim($set);
         if (strlen($set) > 0 && !$versionString->isValid($set)) {
             $format  = 'The "--set" option contains an invalid semantic version "%s".';
@@ -126,16 +126,17 @@ class Command extends AbstractCommand
         }
         $this->setSet($set);
 
-        $major = (int) $input->getOption('major');
+        $major = $input->getOption('major');
+        assert(is_bool($major));
         $this->setMajor($major);
 
-        $minor = (int) $input->getOption('minor');
+        $minor = $input->getOption('minor');
+        assert(is_bool($minor));
         $this->setMinor($minor);
 
-        $patch = (int) $input->getOption('patch');
+        $patch = $input->getOption('patch');
+        assert(is_bool($patch));
         $this->setPatch($patch);
-
-        return;
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
